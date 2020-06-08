@@ -9,14 +9,16 @@ int main()
 {
 
     // Window
-    VideoMode vm(800,600);
+    VideoMode vm(400,600);
     RenderWindow window(vm, "Bird", Style::Default);
     window.setFramerateLimit(60);
 
     // Background
     Texture textureBG;
-    textureBG.loadFromFile("resources/placeholder_bg.png");
+    textureBG.loadFromFile("resources/background.png");
+    textureBG.setRepeated(true);
     Sprite spriteBG;
+    spriteBG.setTextureRect(IntRect(0,0,1600,600));
     spriteBG.setTexture(textureBG);
     spriteBG.setPosition(0,0);
 
@@ -26,7 +28,10 @@ int main()
     Sprite s_bird;
     s_bird.setTexture(t_bird);
     s_bird.setOrigin(24,24);
-    s_bird.setPosition(400, 300);
+    s_bird.setPosition(200, 300);
+
+    float parallax_bg = 0;
+    float parallax_bg_speed = 2;
 
     Clock clock;
 
@@ -51,6 +56,11 @@ int main()
 
         // Update game state
         game.Update(elapsed);
+        parallax_bg -= parallax_bg_speed;
+
+        if (parallax_bg == -800) {
+            parallax_bg = 0;
+        }
 
         // Draw game
         window.clear();
@@ -59,6 +69,8 @@ int main()
 
         s_bird.setPosition(player_pos.first, player_pos.second);
         s_bird.setRotation(game.player_.GetAngle());
+
+        spriteBG.setPosition(parallax_bg, 0);
 
         window.draw(spriteBG);
         window.draw(s_bird);
