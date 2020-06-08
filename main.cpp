@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include "BirdGame.h"
 
 #include <iostream>
@@ -12,6 +13,13 @@ int main()
     VideoMode vm(400,600);
     RenderWindow window(vm, "Bird", Style::Default);
     window.setFramerateLimit(60);
+
+    // Background music
+    SoundBuffer buffer;
+    buffer.loadFromFile("resources/music.wav");
+    Sound sound;
+    sound.setBuffer(buffer);
+    sound.setLoop(true);
 
     // Background
     Texture textureBG;
@@ -37,7 +45,7 @@ int main()
 
     BirdGame game;
 
-    //std::vector<Pipe> pipesasd = game.GetPipes();
+    sound.play();
 
     while(window.isOpen() && game.GameOver())
     {
@@ -84,7 +92,7 @@ int main()
         window.close();
     }
 
-    std::cout << game.player_.GetPos().second << std::endl;
+    sound.stop();
 
     return 0;
 }
