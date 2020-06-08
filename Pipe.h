@@ -9,6 +9,14 @@ class Pipe {
 public:
     Pipe(Orientation dir, float x, float y, float speed_ = 2);
 
+    const Orientation & GetOrientation() const {
+        return dir_;
+    }
+
+    const std::pair<float, float> & GetPos() const {
+        return pos_;
+    }
+
     void Move();
 
 private:
